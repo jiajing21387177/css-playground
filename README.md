@@ -1,25 +1,34 @@
-# CSS Playground
+# Modern CSS & HTML Playground
 
-This project is a collection of HTML files demonstrating modern CSS features as outlined in the `GEMINI.md` golden standard document.
+Welcome to the CSS Playground! This repository is a curated collection of hands-on examples demonstrating modern CSS and HTML features. It serves as a practical companion to the `GEMINI.md` front-end development golden standard, allowing you to see these cutting-edge platform features in action.
+
+## Purpose
+
+The goal of this project is to provide clear, concise, and isolated demonstrations of new web platform APIs and CSS capabilities. Each example is designed to be easy to understand and experiment with, helping developers adopt the modern practices outlined in our development standards.
+
+## How to Use
+
+Simply clone this repository and open the HTML files in your web browser to view the demos. No build step or server is required.
+
+```bash
+git clone <repository-url>
+cd css-playground
+# Open any .html file in your browser
+```
 
 ## Demos
 
-### Anchor Positioning
+### Container Queries (`@container`)
 
-- [anchor.html](./anchor/anchor.html): Demonstrates basic anchor positioning.
-- [context-menu.html](./anchor/context-menu.html): A context menu example using anchor positioning.
-
-### Container Query
-
-- [media-query-vs-container-query.html](./container-query/media-query-vs-container-query.html): Compares media queries and container queries.
+- **[Media vs. Container Queries](./container-query/media-query-vs-container-query.html)**: A side-by-side comparison illustrating the power of container queries for building truly modular, self-contained components that respond to their container's size, not just the viewport's.
 
 ### Popover API
 
-- [index.html](./popover/index.html): Examples of different popover types (auto, hint, manual).
-- [popover-with-anchor.html](./popover/popover-with-anchor.html): Demonstrates using the Popover API with anchor positioning.
+- **[Popover API Showcase](./popover/index.html)**: Explore the different types of native popovers (`auto`, `hint`, `manual`) for building accessible tooltips, menus, and dialogs with minimal effort.
+- **[Popover with Anchor](./popover/popover-with-anchor.html)**: A powerful combination of the Popover API with CSS Anchor Positioning to create perfectly placed pop-ups.
 
-### View Transitions
+### View Transitions API
 
-- [index.html](./view-transition/index.html): Basic view transition example.
-- [mpa-1.html](./view-transition/mpa-1.html) & [mpa-2.html](./view-transition/mpa-2.html): Multi-page application view transitions.
-- [spa.html](./view-transition/spa.html): Single-page application view transitions.
+- **[Basic Transition](./view-transition/index.html)**: A simple demonstration of the View Transitions API for creating smooth, app-like animations between DOM updates.
+- **[Multi-Page App (MPA) Transitions](./view-transition/mpa-1.html)**: Experience seamless transitions between different HTML pages, bringing the fluidity of SPAs to traditional multi-page architectures. (Navigate between `mpa-1.html` and `mpa-2.html`).
+- **[Single-Page App (SPA) Transition](./view-transition/spa.html)**: An example of how the API can be used within a single page to animate content changes.
