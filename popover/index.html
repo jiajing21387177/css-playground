@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黃金標準：Popover API 範例</title>
+    <style>
+        /* General page styling for demonstration */
+        body {
+            font-family: system-ui, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #212529;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .sample {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .sample:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 0.5em 1em;
+            border-radius: 6px;
+            border: 1px solid #0d6efd;
+            background-color: #0d6efd;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0b5ed7;
+        }
+
+        /* Base popover styles */
+        [popover] {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            max-width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>自動彈出視窗 (Auto Popover)</h1>
+        <p>
+            自動彈出視窗可以「輕易關閉」——這意味著您可以通過點擊外部或按 Esc 鍵來隱藏彈出視窗。顯示一個自動彈出視窗通常會關閉其他已經顯示的自動彈出視窗，除非它們是巢狀的。
+        </p>
+        <div class="sample">
+            <button popovertarget="auto-popover-1">
+                點擊我
+            </button>
+            <div id="auto-popover-1" popover>
+                Qui in tempor sint sit in irure aliquip.
+            </div>
+        </div>
+        <div class="sample">
+            <button popovertarget="auto-popover-2">
+                點擊我
+            </button>
+            <div id="auto-popover-2" popover>
+                Do magna exercitation elit sit enim irure voluptate incididunt commodo non amet elit magna nulla.
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <h1>提示彈出視窗 (Hint Popover)</h1>
+        <p>
+            提示彈出視窗在顯示時不會關閉自動彈出視窗，但會關閉其他提示彈出視窗。它們可以被輕易關閉，並會回應關閉請求。
+        </p>
+        <div class="sample">
+            <button popovertarget="hint-popover-1">
+                點擊我
+            </button>
+            <div id="hint-popover-1" popover="hint">
+                Et occaecat officia Lorem veniam amet eu fugiat nulla consectetur velit est nostrud proident ut fugiat.
+            </div>
+        </div>
+        <div class="sample">
+            <button popovertarget="hint-popover-2">
+                點擊我
+            </button>
+            <div id="hint-popover-2" popover="hint">
+                Enim eiusmod laborum sunt incididunt eiusmod dolor veniam.
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <h1>手動彈出視窗 (Manual Popover)</h1>
+        <p>
+            手動彈出視窗不能「輕易關閉」，也不會自動關閉。彈出視窗必須使用宣告式的顯示/隱藏/切換按鈕或 JavaScript 明確地顯示和關閉。可以同時顯示多個獨立的手動彈出視窗。
+        </p>
+        <div class="sample">
+            <button popovertarget="manual-popover-1">
+                點擊我
+            </button>
+            <div id="manual-popover-1" popover="manual">
+                Adipisicing nostrud qui id non excepteur.
+            </div>
+        </div>
+        <div class="sample">
+            <button popovertarget="manual-popover-2">
+                點擊我
+            </button>
+            <div id="manual-popover-2" popover="manual">
+                Ad esse occaecat anim.
+            </div>
+        </div>
+        <div class="sample">
+            <button popovertarget="manual-popover-2" popovertargetaction="hide">
+                Hide
+            </button>
+            <button popovertarget="manual-popover-2" popovertargetaction="show">
+                Show
+            </button>
+            <button popovertarget="manual-popover-2" popovertargetaction="toggle">
+                Toggle
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>

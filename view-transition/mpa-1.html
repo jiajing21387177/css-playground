@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPA 範例 - 第 1 頁</title>
+    <style>
+        body {
+            background-color: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+            font-family: sans-serif;
+        }
+        .container {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            width: 100%;
+            max-width: 28rem;
+            text-align: center;
+        }
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            color: #475569;
+            margin-bottom: 1.5rem;
+        }
+        a {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+        }
+        a:hover {
+            background-color: #2563eb;
+        }
+        /* * 核心：啟用 MPA View Transitions。
+         * 這個規則必須同時存在於來源頁和目標頁。
+         */
+        @view-transition {
+            navigation: auto;
+        }
+
+        /* --- 自訂整個頁面的過渡動畫 --- */
+        @keyframes slide-from-right {
+            from { transform: translateX(50px); opacity: 0; }
+        }
+        @keyframes slide-to-left {
+            to { transform: translateX(-50px); opacity: 0; }
+        }
+        
+        /* * 'root' 是預設的 view-transition-name，代表整個畫面。
+         * 我們可以自訂它的進場與退場動畫。
+         */
+        ::view-transition-old(root) {
+            animation: 1s ease-out both slide-to-left;
+        }
+        ::view-transition-new(root) {
+            animation: 5s ease-in both slide-from-right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>這是第 1 頁</h1>
+        <p>點擊下方按鈕，體驗頁面間的滑動過渡效果。</p>
+        <a href="/view-transition/mpa-2.html">
+            前往第 2 頁 &rarr;
+        </a>
+    </div>
+</body>
+</html>

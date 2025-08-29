@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黃金標準：Popover API 範例</title>
+    <style>
+        /* General page styling for demonstration */
+        body {
+            font-family: system-ui, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #212529;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .sample {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .sample:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 0.5em 1em;
+            border-radius: 6px;
+            border: 1px solid #0d6efd;
+            background-color: #0d6efd;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0b5ed7;
+        }
+
+        /* Override the base popover styles */
+        [popover] {
+            inset: unset;
+            margin: unset;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            min-width: 300px;
+            max-width: 300px;
+        }
+
+        #btn-1 {
+            anchor-name: --btn-anchor-1;
+        }
+
+        #btn-2 {
+            anchor-name: --btn-anchor-2;
+        }
+
+        #btn-3 {
+            anchor-name: --btn-anchor-3;
+        }
+
+        #btn-4 {
+            anchor-name: --btn-anchor-4;
+        }
+
+        #btn-5 {
+            anchor-name: --btn-anchor-5;
+        }
+
+        /* 左下往右下展開 */
+        #popover-1 {
+            position-anchor: --btn-anchor-1;
+            top: anchor(bottom);
+            left: calc(anchor(left) + 0px);
+        }
+
+        /* 右下往左下展開 */
+        #popover-2 {
+            position-anchor: --btn-anchor-2;
+            top: anchor(bottom);
+            right: anchor(right);
+        }
+
+        /* 左上往右上展開 */
+        #popover-3 {
+            position-anchor: --btn-anchor-3;
+            bottom: anchor(top);
+            left: anchor(left);
+        }
+
+        /* 右上往左上展開 */
+        #popover-4 {
+            position-anchor: --btn-anchor-4;
+            bottom: anchor(top);
+            right: anchor(right);
+        }
+
+        #fallback-btn-1 {
+            anchor-name: --fallback-btn-anchor-1;
+            margin-left: calc(70vw - 250px);
+        }
+
+        #fallback-popover-1 {
+            position-anchor: --fallback-btn-anchor-1;
+            position-try: bottom right, top right, bottom left, top left;
+
+            /* position-area: bottom right;
+            position-try:
+                flip-block,
+                flip-inline,
+                flip-block flip-inline; */
+            
+            /* position-try:
+                --from-bottom-left-to-bottom-right,
+                --from-bottom-right-to-bottom-left,
+                --from-bottom-left-to-bottom-right,
+                --from-bottom-left-to-bottom-right; */
+        }
+
+        @position-try --from-bottom-left-to-bottom-right {
+            top: anchor(bottom);
+            left: anchor(left);
+        }
+
+        @position-try --from-bottom-right-to-bottom-left {
+            top: anchor(bottom);
+            right: anchor(right);
+        }
+
+        @position-try --from-bottom-left-to-bottom-right {
+            bottom: anchor(top);
+            left: anchor(left);
+        }
+
+        @position-try --from-bottom-left-to-bottom-right {
+            bottom: anchor(top);
+            right: anchor(right);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Popover With Anchor</h1>
+        <p>
+
+        </p>
+        <div class="sample">
+            <button id="btn-1" popovertarget="popover-1">
+                點擊我
+            </button>
+            <div id="popover-1" popover>
+                Qui in tempor sint sit in irure aliquip.
+            </div>
+        </div>
+        <div class="sample">
+            <button id="btn-2" popovertarget="popover-2">
+                點擊我
+            </button>
+            <div id="popover-2" popover>
+                Qui in tempor sint sit in irure aliquip.
+            </div>
+        </div>
+        <div class="sample">
+            <button id="btn-3" popovertarget="popover-3">
+                點擊我
+            </button>
+            <div id="popover-3" popover>
+                Qui in tempor sint sit in irure aliquip.
+            </div>
+        </div>
+        <div class="sample">
+            <button id="btn-4" popovertarget="popover-4">
+                點擊我
+            </button>
+            <div id="popover-4" popover>
+                Qui in tempor sint sit in irure aliquip.
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <h1>Popover With Anchor + Position Area</h1>
+        <p>
+
+        </p>
+        <div class="sample">
+            <button id="btn-5" popovertarget="popover-5">
+                點擊我
+            </button>
+            <div id="popover-5" popover>
+                Qui in tempor sint sit in irure aliquip.
+            </div>
+            <style contenteditable="true"
+                style="display: block; white-space: pre; background-color: rgba(0, 0, 0, 0.1); margin: 1rem 0;">
+                #popover-5 {
+                    position-anchor: --btn-anchor-5;
+                    position-area: bottom right;
+                }
+            </style>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <h1>Popover With Anchor + Fallback</h1>
+        <p>
+
+        </p>
+        <div class="sample" style="min-width: 175vw; overflow: auto;">
+            <button id="fallback-btn-1" popovertarget="fallback-popover-1">
+                點擊我
+            </button>
+            <div id="fallback-popover-1" popover>
+                Qui in tempor sint sit in irure aliquip.
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

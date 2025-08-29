@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Query vs Container Query</title>
+    <style>
+        /* --- General Styling --- */
+        body {
+            background-color: #f8fafc;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 1024px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .main-description {
+            text-align: center;
+            color: #475569;
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 3rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .demo-box {
+            border: 2px dashed #cbd5e1;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+
+        .demo-box-title {
+            text-align: center;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        /* --- Container Query Setup --- */
+        .card-container {
+            container-type: inline-size;
+            container-name: card-host;
+        }
+
+        /* --- Card Component Styling --- */
+        .product-card {
+            display: grid;
+            grid-template-areas: "image" "title" "desc" "button";
+            gap: 0.75rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1rem;
+            overflow: hidden;
+        }
+
+        .product-card img {
+            grid-area: image;
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+        }
+
+        .product-card h3 {
+            grid-area: title;
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .product-card p {
+            grid-area: desc;
+            color: #4b5563;
+            margin: 0;
+        }
+
+        .product-card button {
+            grid-area: button;
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            justify-self: start;
+            border: none;
+            cursor: pointer;
+        }
+
+
+        .product-wrapper {
+            background-color: black;
+        }
+
+        /* Container Query Rule */
+        @container card-host (min-width: 350px) {
+            .product-card {
+                grid-template-areas:
+                    "image title"
+                    "image desc"
+                    "image button";
+                grid-template-columns: 120px 1fr;
+                gap: 1rem;
+            }
+        }
+
+        /* --- Media Query Example Styling --- */
+        .media-query-example {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .media-query-example .item {
+            background-color: #ef4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .media-query-description {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        /* --- Container Query Demo Layout --- */
+        .container-query-layout {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .card-wrapper {
+            width: 100%;
+            background-color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .card-wrapper p {
+            text-align: center;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+
+        .narrow-container {
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Summary Table Styling --- */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 600px;
+            text-align: left;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        thead {
+            background-color: #e2e8f0;
+        }
+
+        th {
+            font-weight: 700;
+        }
+
+        td:first-child {
+            font-weight: 600;
+        }
+
+        .text-red {
+            color: #dc2626;
+        }
+
+        .text-blue {
+            color: #2563eb;
+        }
+
+        code {
+            font-family: monospace;
+            background-color: #f1f5f9;
+            padding: 0.2em 0.4em;
+            border-radius: 0.25rem;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (min-width: 768px) {
+            body {
+                padding: 2rem;
+            }
+
+            .media-query-example {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .container-query-layout {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .media-query-description .desktop {
+                display: block;
+            }
+
+            .media-query-description .mobile {
+                display: none;
+            }
+        }
+
+        /* Default visibility for media query description */
+        .media-query-description .desktop {
+            display: none;
+        }
+
+        .media-query-description .mobile {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Media Query vs. Container Query</h1>
+        <p class="main-description">
+            一個用於響應**整個頁面**的佈局，另一個則用於響應**元件本身**的空間。讓我們來看看它們的區別。
+        </p>
+
+        <!-- ========== Media Queries ========== -->
+        <section>
+            <h2 class="text-red">Media Queries (媒體查詢)</h2>
+            <p>
+                Media Query 讓你的內容可以響應**瀏覽器視窗 (viewport) 的大小**。這是傳統響應式設計的基石。你可以把它想像成：「如果螢幕寬度超過
+                768px，就把側邊欄顯示出來」。它的判斷基準永遠是整個頁面。
+            </p>
+            <div class="demo-box">
+                <p class="demo-box-title">👇 試著縮放你的瀏覽器視窗 👇</p>
+                <div class="media-query-example">
+                    <div class="item">項目 1</div>
+                    <div class="item">項目 2</div>
+                    <div class="item">項目 3</div>
+                </div>
+                <div class="media-query-description">
+                    <p class="mobile">在小螢幕上 (寬度 &lt; 768px)，項目是單欄堆疊的。</p>
+                    <p class="desktop">在大螢幕上 (寬度 &gt;= 768px)，項目變成了三欄網格。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== Container Queries ========== -->
+        <section>
+            <h2 class="text-blue">Container Queries (容器查詢)</h2>
+            <p>
+                Container Query 讓元件可以響應其**父層容器 (parent container)
+                的大小**，而不管整個視窗有多大。這讓你可以建立真正模組化、可重複使用的元件。你可以把它想像成：「如果我所在的容器寬度超過 350px，就把我的排版從垂直變為水平」。
+            </p>
+            <div class="demo-box">
+                <p class="demo-box-title">👇 同一個元件，在不同寬度的容器中，表現不同 👇</p>
+                <div class="container-query-layout">
+                    <!-- 窄容器 -->
+                    <div class="card-container card-wrapper narrow-container">
+                        <p>容器寬度 &lt; 350px</p>
+                        <div class="product-wrapper">
+                            <div class="product-card">
+                                <img src="https://placehold.co/400x300/3b82f6/ffffff?text=Product" alt="Product Image">
+                                <h3>模組化產品卡片</h3>
+                                <p>在窄小的空間中，這張卡片會自動採用垂直堆疊的佈局。</p>
+                                <button>了解更多</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 寬容器 -->
+                    <div class="card-container card-wrapper">
+                        <p>容器寬度 &gt; 350px</p>
+                        <div class="product-card">
+                            <img src="https://placehold.co/400x300/3b82f6/ffffff?text=Product" alt="Product Image">
+                            <h3>模組化產品卡片</h3>
+                            <p>當有足夠空間時，它會自動切換為圖片在左、文字在右的水平佈局。</p>
+                            <button>了解更多</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== Summary Table ========== -->
+        <section>
+            <h2 style="text-align: center;">總結比較</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>特性</th>
+                            <th class="text-red">Media Query</th>
+                            <th class="text-blue">Container Query</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>響應對象</td>
+                            <td>整個瀏覽器視窗 (Viewport)</td>
+                            <td>父層容器 (Parent Container)</td>
+                        </tr>
+                        <tr>
+                            <td>使用場景</td>
+                            <td>頁面級別的宏觀佈局 (如導航欄、側邊欄、頁面網格)</td>
+                            <td>元件級別的微觀佈局 (如卡片、個人資料小工具)</td>
+                        </tr>
+                        <tr>
+                            <td>核心概念</td>
+                            <td>頁面應該如何適應不同的螢幕尺寸</td>
+                            <td>元件應該如何適應它被放置的任何空間</td>
+                        </tr>
+                        <tr>
+                            <td>CSS 語法</td>
+                            <td><code>@media (min-width: 768px) { ... }</code></td>
+                            <td><code>@container (min-width: 350px) { ... }</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+</body>
+
+</html>

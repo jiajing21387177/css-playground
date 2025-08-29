@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPA 範例 - 第 2 頁</title>
+    <style>
+        body {
+            background-color: #f0fdf4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+            font-family: sans-serif;
+        }
+        .container {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            width: 100%;
+            max-width: 28rem;
+            text-align: center;
+        }
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #16a34a;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            color: #475569;
+            margin-bottom: 1.5rem;
+        }
+        a {
+            display: inline-block;
+            background-color: #22c55e;
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+        }
+        a:hover {
+            background-color: #16a34a;
+        }
+        /* * 核心：啟用 MPA View Transitions。
+         * 這個規則必須同時存在於來源頁和目標頁。
+         */
+        @view-transition {
+            navigation: auto;
+        }
+
+        /* --- 自訂整個頁面的過渡動畫 --- */
+        /* 為了讓返回的動畫方向正確，我們需要定義相反的動畫 */
+        @keyframes slide-from-left {
+            from { transform: translateX(-50px); opacity: 0; }
+        }
+        @keyframes slide-to-right {
+            to { transform: translateX(50px); opacity: 0; }
+        }
+        
+        /* * 當從 page1 -> page2 時，page2 是新頁面，套用 slide-from-right。
+         * 當從 page2 -> page1 時，page2 是舊頁面，套用 slide-to-right。
+         * 瀏覽器會根據導覽歷史自動選擇正確的動畫。
+         * 為了簡化，我們這裡使用與 page1 相同的動畫設定，
+         * 但在真實專案中，你可以為返回定義不同的動畫。
+         */
+        ::view-transition-old(root) {
+            animation: 0.3s ease-out both slide-to-right;
+        }
+        ::view-transition-new(root) {
+            animation: 0.3s ease-in both slide-from-left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>歡迎來到第 2 頁</h1>
+        <p>您剛剛看到了平滑的頁面切換效果！</p>
+        <a href="/view-transition/mpa-1.html">
+            &larr; 返回第 1 頁
+        </a>
+    </div>
+</body>
+</html>

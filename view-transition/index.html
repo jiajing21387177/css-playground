@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Transition Pseudo-Elements Demo</title>
+    <style>
+        /* --- Basic Setup --- */
+        body {
+            display: grid;
+            place-content: center;
+            min-height: 100vh;
+            font-family: system-ui, sans-serif;
+            background-color: #f0f4f8;
+            text-align: center;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            width: 320px;
+        }
+        .card img {
+            width: 100%;
+            border-radius: 0.5rem;
+            /* This is the key to creating a separate transition group for the image */
+            view-transition-name: card-image;
+        }
+        .card h2 {
+            margin: 1rem 0 0.5rem;
+            color: #333;
+        }
+        button {
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background-color: #2563eb;
+            color: white;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* --- View Transition Styling --- */
+
+        /* 1. ::view-transition */
+        /* This is the root of the entire overlay. We can style the background here. */
+        /* During the transition, the whole screen will have a semi-transparent black overlay. */
+        ::view-transition {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(2px);
+        }
+
+        /* 2. ::view-transition-group(card-image) */
+        /* This targets the container for a specific named transition. */
+        /* It's used to define the animation duration and easing for both old and new views. */
+        ::view-transition-group(card-image) {
+            animation-duration: 3s;
+            animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        /* 3. ::view-transition-image-pair(card-image) */
+        /* This pseudo-element wraps the old and new snapshots. */
+        /* We can use it for effects like mix-blend-mode during the cross-fade. */
+        ::view-transition-image-pair(card-image) {
+            /* mix-blend-mode: difference; */
+            filter: blur(3px);
+        }
+
+        /* 4. ::view-transition-old(card-image) */
+        /* This targets the snapshot of the outgoing (old) view. */
+        /* We'll make it rotate and fade out. */
+        ::view-transition-old(card-image) {
+            animation-name: rotate-out;
+        }
+
+        /* 5. ::view-transition-new(card-image) */
+        /* This targets the incoming (new) view. */
+        /* We'll make it rotate and fade in from the other direction. */
+        ::view-transition-new(card-image) {
+            animation-name: rotate-in;
+        }
+
+        /* --- Keyframe Animations --- */
+        @keyframes rotate-out {
+            from {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: rotate(-90deg) scale(0.5);
+            }
+        }
+
+        @keyframes rotate-in {
+            from {
+                opacity: 0;
+                transform: rotate(90deg) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <div class="card" id="card">
+            <img src="https://placehold.co/600x400/34d399/ffffff?text=Nature" alt="Nature Scene" id="card-img">
+            <h2 id="card-title">Nature Scene</h2>
+        </div>
+        <button id="switch-btn">Switch Card</button>
+    </main>
+
+    <script>
+        const switchBtn = document.getElementById('switch-btn');
+        const cardImg = document.getElementById('card-img');
+        const cardTitle = document.getElementById('card-title');
+
+        const cardData = [
+            {
+                src: 'https://placehold.co/600x400/34d399/ffffff?text=Nature',
+                title: 'Nature Scene'
+            },
+            {
+                src: 'https://placehold.co/600x400/fb923c/ffffff?text=Cityscape',
+                title: 'Cityscape'
+            }
+        ];
+
+        let currentIndex = 0;
+
+        switchBtn.addEventListener('click', () => {
+            // Check for browser support
+            if (!document.startViewTransition) {
+                updateCard();
+                return;
+            }
+
+            // Perform the transition
+            document.startViewTransition(() => {
+                updateCard();
+            });
+        });
+
+        function updateCard() {
+            currentIndex = (currentIndex + 1) % cardData.length;
+            const newData = cardData[currentIndex];
+            cardImg.src = newData.src;
+            cardImg.alt = newData.title;
+            cardTitle.textContent = newData.title;
+        }
+    </script>
+
+</body>
+</html>
