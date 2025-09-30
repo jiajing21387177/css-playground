@@ -2,27 +2,21 @@
 
 name: 'Manual: Print Git SHA'
 
-# This section defines the trigger for the workflow.
-# `workflow_dispatch` allows you to run this workflow manually from the Actions tab.
 on:
   workflow_dispatch:
 
 jobs:
-  # A job named 'print-sha'
   print-sha:
-    # The type of runner that the job will run on. 'ubuntu-latest' is a standard choice.
     runs-on: ubuntu-latest
 
-    # A sequence of tasks that will be executed as part of the job.
     steps:
-      # Step 1: Print the Git SHA using the GitHub context object
-      # This is the most common way to access workflow information.
-      - name: 'Print commit SHA from context'
+      # This step now has a name that accurately describes its action.
+      - name: 'Print short (7-char) commit SHA'
         run: |
-          echo "The commit SHA is: (${{ github.sha }} | head -c7)"
+          SHORT_SHA=$(echo $GITHUB_SHA | head -c7)
+          echo "The short SHA is: $SHORT_SHA"
 
-      # Step 2: (Alternative) Print the Git SHA using an environment variable
-      # GitHub also provides default environment variables for common values.
-      - name: 'Print commit SHA from environment variable'
+      # This step correctly prints the full SHA.
+      - name: 'Print full commit SHA'
         run: |
-          echo "The commit SHA from env var is: $GITHUB_SHA"
+          echo "The full SHA is: $GITHUB_SHA"
