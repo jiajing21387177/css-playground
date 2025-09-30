@@ -19,7 +19,7 @@ jobs:
       # This is the most common way to access workflow information.
       - name: 'Print commit SHA from context'
         run: |
-          echo "The commit SHA is: ${{ github.sha }}"
+          echo "The commit SHA is: (${{ github.sha }} | head -c7)"
 
       # Step 2: (Alternative) Print the Git SHA using an environment variable
       # GitHub also provides default environment variables for common values.
